@@ -1,0 +1,70 @@
+/* CSS for the security testing page */
+
+body {
+    background-color: #287acc;
+    font-family: Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    text-align: center;
+  }
+  
+  .title {
+    font-size: 36px;
+    margin-bottom: 40px;
+  }
+  
+  .form {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+  }
+  
+  .input-field {
+    width: 60%;
+    padding: 12px 20px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .submit-btn {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submit-btn:hover {
+    background-color: #0062cc;
+  }
+  
+  .description {
+    font-size: 24px;
+    margin-bottom: 40px;
+  }
+  
+  .transform {
+    animation: hacking 2s infinite;
+  }
+  
+  @keyframes hacking {
+    0% {
+      transform: translateX(-5px) rotate(0deg);
+    }
+    50% {
+      transform: translateX(5px) rotate(5deg);
+    }
+    100% {
+      transform: translateX(-5px) rotate(0deg);
+    }
+  }
+  

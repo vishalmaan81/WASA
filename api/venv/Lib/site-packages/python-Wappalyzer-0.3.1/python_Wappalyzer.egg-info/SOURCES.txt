@@ -1,0 +1,10 @@
+README.md
+setup.py
+Wappalyzer/Wappalyzer.py
+Wappalyzer/__init__.py
+Wappalyzer/data/technologies.json
+python_Wappalyzer.egg-info/PKG-INFO
+python_Wappalyzer.egg-info/SOURCES.txt
+python_Wappalyzer.egg-info/dependency_links.txt
+python_Wappalyzer.egg-info/requires.txt
+python_Wappalyzer.egg-info/top_level.txt
