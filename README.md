@@ -1,3 +1,22 @@
+Output - 
+
+XSS attack result
+![XSS2](https://github.com/vishalmaan81/WASA/assets/52819318/e508d930-5b13-4e01-a05c-e0067676de8e)
+
+Web Tech scan result
+![WebTEch1](https://github.com/vishalmaan81/WASA/assets/52819318/481c66a8-6898-4c34-b64e-4503c619ee85)
+
+SQL Scan result
+![SQL1](https://github.com/vishalmaan81/WASA/assets/52819318/2c2e305e-88a0-4e9f-a3ee-2b1c47e8fdb1)
+
+Network Scan and post exploitation
+![net1](https://github.com/vishalmaan81/WASA/assets/52819318/14e9ab47-7f82-4fd0-967a-46570648f6cf)
+
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
