@@ -1,3 +1,19 @@
+
+This is my master's thesis project.
+
+WASA (Web Application Security Automation)
+
+This project has been built as a Web application. Any company or an individual can use this website to scan a URL for vulnerabilities. The project can find Reflected XSS, Error based SQL, and vulnerabilities in tech stack used  by the website, also this project can find vulnerabilities in network and perform post exploitation.
+
+The project is built on react, node is and flask.
+
+The project is a full stack development architecture. We have front end technologies dealing with user interface and managing the calls made from buttons on UI to back end. 
+
+I have implemented Flask as a modular code with the front end which can be easily accessible. Flask is being called from user interface with use of API (Application Presentation Interface)
+
+
+
+
 Output - 
 
 XSS attack result
