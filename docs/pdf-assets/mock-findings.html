@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>WASA Findings Detail Mock</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    background: #0b1220; color: #e8eef9;
+    width: 1440px; height: 900px; overflow: hidden; padding: 28px 32px;
+  }
+  .header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 20px; }
+  .header h1 { font-size: 24px; }
+  .header p { color:#8fa3c4; margin-top:6px; font-size:14px; }
+  .tabs { display:flex; gap:8px; }
+  .tab {
+    padding: 10px 16px; border-radius: 999px; font-size: 13px; font-weight: 600;
+    background:#121c30; border:1px solid #243554; color:#9fb0ce;
+  }
+  .tab.active { background: rgba(99,102,241,.18); border-color: rgba(99,102,241,.4); color:#c7d2fe; }
+  .layout { display:grid; grid-template-columns: 1.15fr .85fr; gap: 16px; }
+  .card {
+    background:#111b2e; border:1px solid #243554; border-radius:16px; padding:20px;
+  }
+  .title-row { display:flex; gap:12px; align-items:center; margin-bottom:14px; }
+  .crit {
+    background:rgba(251,113,133,.15); color:#fb7185; font-weight:800; font-size:12px;
+    padding:6px 10px; border-radius:8px;
+  }
+  h2 { font-size:20px; }
+  .meta { display:flex; flex-wrap:wrap; gap:10px; margin: 12px 0 18px; }
+  .chip {
+    background:#0d1729; border:1px solid #2a3d61; color:#a9bddc;
+    padding:6px 10px; border-radius:8px; font-size:12px;
+  }
+  h3 { font-size:14px; color:#a9bddc; margin: 16px 0 8px; text-transform:uppercase; letter-spacing:.5px; }
+  p, li { color:#c9d6ee; font-size:14px; line-height:1.55; }
+  ul { padding-left: 18px; }
+  pre {
+    margin-top:10px; background:#07101f; border:1px solid #243554; border-radius:12px;
+    padding:14px; color:#7dd3fc; font-size:12px; line-height:1.5; overflow:hidden;
+  }
+  .ai {
+    background: linear-gradient(160deg, rgba(99,102,241,.18), rgba(34,211,238,.08));
+    border:1px solid rgba(99,102,241,.35);
+  }
+  .ai h2 { font-size:16px; margin-bottom:10px; }
+  .step {
+    display:grid; grid-template-columns: 28px 1fr; gap:10px; margin-bottom:12px;
+  }
+  .n {
+    width:28px; height:28px; border-radius:50%; display:grid; place-items:center;
+    background:rgba(34,211,238,.15); color:#67e8f9; font-size:12px; font-weight:800;
+  }
+  .remed {
+    margin-top:14px; background:#0d1729; border-radius:12px; padding:14px; border:1px solid #2a3d61;
+  }
+  .actions { display:flex; gap:10px; margin-top:16px; }
+  .btn {
+    border:none; border-radius:10px; padding:12px 16px; font-weight:700; font-size:13px;
+  }
+  .btn-main { background:linear-gradient(135deg,#22d3ee,#6366f1); color:#04101c; }
+  .btn-sec { background:#17233a; color:#c7d5ef; border:1px solid #2d4166; }
+</style>
+</head>
+<body>
+  <div class="header">
+    <div>
+      <h1>Finding Detail · SQLi /login</h1>
+      <p>Scan ID WAS-2401 · Target app.example.com · Confirmed with evidence</p>
+    </div>
+    <div class="tabs">
+      <div class="tab active">Overview</div>
+      <div class="tab">Evidence</div>
+      <div class="tab">AI Fix</div>
+      <div class="tab">Export</div>
+    </div>
+  </div>
+
+  <div class="layout">
+    <section class="card">
+      <div class="title-row">
+        <div class="crit">CRITICAL</div>
+        <h2>Error-based SQL Injection</h2>
+      </div>
+      <div class="meta">
+        <div class="chip">OWASP A03:2021 Injection</div>
+        <div class="chip">CWE-89</div>
+        <div class="chip">CVSS 9.8</div>
+        <div class="chip">Confidence: High</div>
+      </div>
+      <h3>Description</h3>
+      <p>The login form reflects database errors when single-quote and double-quote payloads are submitted. Backend likely concatenates user input into SQL without parameterization.</p>
+      <h3>Affected asset</h3>
+      <ul>
+        <li>Endpoint: POST /login</li>
+        <li>Parameter: username</li>
+        <li>DB fingerprint: MySQL error signature</li>
+      </ul>
+      <h3>Request / response evidence</h3>
+      <pre>POST /login HTTP/1.1
+Host: app.example.com
+Content-Type: application/x-www-form-urlencoded
+
+username=admin'&password=test
+
+← 200 OK
+You have an error in your SQL syntax; check the manual
+that corresponds to your MySQL server version...</pre>
+      <div class="actions">
+        <button class="btn btn-main">Generate Patch Diff</button>
+        <button class="btn btn-sec">Create Ticket</button>
+        <button class="btn btn-sec">Retest</button>
+      </div>
+    </section>
+
+    <section class="card ai">
+      <h2>✦ AI Security Copilot</h2>
+      <p style="margin-bottom:14px;">Exploitable path and developer-ready remediation synthesized from scan evidence + OWASP guidance.</p>
+      <div class="step">
+        <div class="n">1</div>
+        <div>
+          <strong>Attack narrative</strong>
+          <p>Attacker injects quote → SQL error confirms injection point → escalate to UNION or auth bypass.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="n">2</div>
+        <div>
+          <strong>Business impact</strong>
+          <p>Account takeover, data dump of users table, potential RCE if stacked queries allowed.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="n">3</div>
+        <div>
+          <strong>Fix priority</strong>
+          <p>Ship parameterized queries + WAF rule within 24h; add regression test.</p>
+        </div>
+      </div>
+      <div class="remed">
+        <strong style="color:#67e8f9;">Suggested fix (Node/Express)</strong>
+        <pre style="margin-top:8px;">// BAD
+`SELECT * FROM users WHERE name='${user}'`
+
+// GOOD
+db.query(
+  'SELECT * FROM users WHERE name = ?',
+  [user]
+)</pre>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

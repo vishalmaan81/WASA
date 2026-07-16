@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>WASA Dashboard Mock</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    background: #0b1220;
+    color: #e8eef9;
+    width: 1440px;
+    height: 900px;
+    overflow: hidden;
+  }
+  .shell { display: grid; grid-template-columns: 240px 1fr; height: 100%; }
+  .nav {
+    background: linear-gradient(180deg, #0f1a2e 0%, #0a101c 100%);
+    border-right: 1px solid #1e2d4a;
+    padding: 28px 18px;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 36px;
+  }
+  .logo {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: linear-gradient(135deg, #22d3ee, #6366f1);
+    box-shadow: 0 0 24px rgba(34,211,238,.45);
+  }
+  .brand h1 { font-size: 18px; letter-spacing: .4px; }
+  .brand span { display:block; font-size: 11px; color: #7f92b5; font-weight: 500; }
+  .nav-item {
+    padding: 12px 14px; border-radius: 10px; color: #9fb0ce;
+    font-size: 14px; margin-bottom: 6px; display: flex; gap: 10px; align-items: center;
+  }
+  .nav-item.active {
+    background: rgba(34,211,238,.12); color: #67e8f9; border: 1px solid rgba(34,211,238,.25);
+  }
+  .main { padding: 28px 32px; background:
+    radial-gradient(900px 400px at 80% -10%, rgba(99,102,241,.18), transparent 60%),
+    radial-gradient(700px 300px at 10% 0%, rgba(34,211,238,.12), transparent 50%),
+    #0b1220;
+  }
+  .top {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;
+  }
+  .top h2 { font-size: 26px; font-weight: 700; }
+  .top p { color: #8fa3c4; margin-top: 4px; font-size: 14px; }
+  .badge {
+    background: rgba(34,197,94,.12); color: #4ade80; border: 1px solid rgba(34,197,94,.3);
+    padding: 8px 12px; border-radius: 999px; font-size: 12px; font-weight: 600;
+  }
+  .scan-bar {
+    display: grid; grid-template-columns: 1fr auto auto; gap: 12px;
+    background: #111b2e; border: 1px solid #243554; border-radius: 16px;
+    padding: 16px; margin-bottom: 22px;
+    box-shadow: 0 10px 40px rgba(0,0,0,.25);
+  }
+  .scan-bar input {
+    background: #0b1324; border: 1px solid #2a3d61; color: #e8eef9;
+    border-radius: 12px; padding: 14px 16px; font-size: 15px;
+  }
+  .btn {
+    border: none; border-radius: 12px; padding: 0 22px; font-weight: 700; font-size: 14px; cursor: default;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, #22d3ee, #6366f1); color: #04101c;
+  }
+  .btn-ghost {
+    background: #17233a; color: #c7d5ef; border: 1px solid #2d4166;
+  }
+  .kpis {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 18px;
+  }
+  .kpi {
+    background: #111b2e; border: 1px solid #243554; border-radius: 16px; padding: 18px;
+  }
+  .kpi .label { color: #8fa3c4; font-size: 12px; text-transform: uppercase; letter-spacing: .6px; }
+  .kpi .value { font-size: 30px; font-weight: 800; margin: 8px 0 4px; }
+  .kpi .delta { font-size: 12px; color: #67e8f9; }
+  .kpi.critical .value { color: #fb7185; }
+  .kpi.high .value { color: #fbbf24; }
+  .kpi.med .value { color: #60a5fa; }
+  .kpi.ok .value { color: #34d399; }
+  .grid {
+    display: grid; grid-template-columns: 1.4fr 1fr; gap: 14px;
+  }
+  .card {
+    background: #111b2e; border: 1px solid #243554; border-radius: 16px; padding: 18px;
+    min-height: 360px;
+  }
+  .card h3 { font-size: 16px; margin-bottom: 14px; display:flex; justify-content:space-between; align-items:center; }
+  .card h3 span { font-size: 12px; color: #8fa3c4; font-weight: 500; }
+  .module {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  }
+  .mod {
+    border: 1px solid #2a3d61; border-radius: 14px; padding: 14px; background: #0d1729;
+  }
+  .mod .t { font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+  .mod .d { color: #8fa3c4; font-size: 12px; line-height: 1.4; margin-bottom: 10px; }
+  .pill {
+    display: inline-block; font-size: 11px; padding: 4px 8px; border-radius: 999px; font-weight: 700;
+  }
+  .pill.on { background: rgba(34,211,238,.15); color: #67e8f9; }
+  .pill.off { background: rgba(148,163,184,.12); color: #94a3b8; }
+  .finding {
+    display: grid; grid-template-columns: 70px 1fr auto; gap: 10px; align-items: center;
+    padding: 12px 0; border-bottom: 1px solid #1e2d4a;
+  }
+  .finding:last-child { border-bottom: none; }
+  .sev {
+    font-size: 11px; font-weight: 800; text-align: center; padding: 6px 0; border-radius: 8px;
+  }
+  .sev.c { background: rgba(251,113,133,.15); color: #fb7185; }
+  .sev.h { background: rgba(251,191,36,.15); color: #fbbf24; }
+  .sev.m { background: rgba(96,165,250,.15); color: #60a5fa; }
+  .finding .title { font-size: 13px; font-weight: 600; }
+  .finding .meta { font-size: 11px; color: #8fa3c4; margin-top: 3px; }
+  .score {
+    width: 54px; height: 54px; border-radius: 50%;
+    display: grid; place-items: center; font-weight: 800;
+    border: 3px solid #fbbf24; color: #fbbf24; font-size: 14px;
+  }
+</style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="nav">
+      <div class="brand">
+        <div class="logo"></div>
+        <div>
+          <h1>WASA</h1>
+          <span>Security Automation</span>
+        </div>
+      </div>
+      <div class="nav-item active">Dashboard</div>
+      <div class="nav-item">New Scan</div>
+      <div class="nav-item">Findings</div>
+      <div class="nav-item">Attack Surface</div>
+      <div class="nav-item">AI Assistant</div>
+      <div class="nav-item">Reports</div>
+      <div class="nav-item">Integrations</div>
+      <div class="nav-item">Settings</div>
+    </aside>
+    <main class="main">
+      <div class="top">
+        <div>
+          <h2>Security Command Center</h2>
+          <p>Unified web, network, and AI-driven risk visibility</p>
+        </div>
+        <div class="badge">● Live · 4 scanners ready</div>
+      </div>
+
+      <div class="scan-bar">
+        <input value="https://app.example.com" readonly />
+        <button class="btn btn-ghost">Configure</button>
+        <button class="btn btn-primary">Run Full Scan</button>
+      </div>
+
+      <div class="kpis">
+        <div class="kpi critical">
+          <div class="label">Critical</div>
+          <div class="value">3</div>
+          <div class="delta">+1 since last scan</div>
+        </div>
+        <div class="kpi high">
+          <div class="label">High</div>
+          <div class="value">7</div>
+          <div class="delta">XSS · SQLi · Auth</div>
+        </div>
+        <div class="kpi med">
+          <div class="label">Medium</div>
+          <div class="value">12</div>
+          <div class="delta">Headers · TLS · Deps</div>
+        </div>
+        <div class="kpi ok">
+          <div class="label">Risk Score</div>
+          <div class="value">72</div>
+          <div class="delta">Needs attention</div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <section class="card">
+          <h3>Scan Modules <span>Select & launch independently or as pipeline</span></h3>
+          <div class="module">
+            <div class="mod">
+              <div class="t">Reflected XSS</div>
+              <div class="d">Form fuzzing with reflection detection and context analysis</div>
+              <span class="pill on">Enabled</span>
+            </div>
+            <div class="mod">
+              <div class="t">SQL Injection</div>
+              <div class="d">Error-based + boolean blind probes across params & forms</div>
+              <span class="pill on">Enabled</span>
+            </div>
+            <div class="mod">
+              <div class="t">Tech Stack CVEs</div>
+              <div class="d">Wappalyzer fingerprint + Vulners intelligence mapping</div>
+              <span class="pill on">Enabled</span>
+            </div>
+            <div class="mod">
+              <div class="t">Network Post-Ex</div>
+              <div class="d">Port map, SSH/Telnet credential audit, lateral hints</div>
+              <span class="pill on">Enabled</span>
+            </div>
+            <div class="mod">
+              <div class="t">AI Attack Path</div>
+              <div class="d">LLM chains findings into exploitability narrative</div>
+              <span class="pill off">Roadmap</span>
+            </div>
+            <div class="mod">
+              <div class="t">Auth & Session</div>
+              <div class="d">Cookie flags, JWT, CSRF, session fixation checks</div>
+              <span class="pill off">Roadmap</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h3>Priority Findings <span>Auto-ranked</span></h3>
+          <div class="finding">
+            <div class="sev c">CRIT</div>
+            <div>
+              <div class="title">SQL Injection on /login</div>
+              <div class="meta">Error-based · MySQL · CVSS 9.8</div>
+            </div>
+            <div class="score">9.8</div>
+          </div>
+          <div class="finding">
+            <div class="sev c">CRIT</div>
+            <div>
+              <div class="title">Weak SSH credentials</div>
+              <div class="meta">Brute-force success · port 22</div>
+            </div>
+            <div class="score">9.1</div>
+          </div>
+          <div class="finding">
+            <div class="sev h">HIGH</div>
+            <div>
+              <div class="title">Reflected XSS in search</div>
+              <div class="meta">script context · session risk</div>
+            </div>
+            <div class="score">7.4</div>
+          </div>
+          <div class="finding">
+            <div class="sev h">HIGH</div>
+            <div>
+              <div class="title">jQuery 2.2.4 known CVEs</div>
+              <div class="meta">3 advisories · outdated lib</div>
+            </div>
+            <div class="score">7.1</div>
+          </div>
+          <div class="finding">
+            <div class="sev m">MED</div>
+            <div>
+              <div class="title">Missing security headers</div>
+              <div class="meta">CSP · HSTS · X-Frame-Options</div>
+            </div>
+            <div class="score">5.2</div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

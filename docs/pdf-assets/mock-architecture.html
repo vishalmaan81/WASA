@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>WASA Architecture Vision</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    width: 1440px; height: 900px; overflow: hidden;
+    background: #070d18; color: #e8eef9; padding: 36px 40px;
+  }
+  h1 { font-size: 28px; margin-bottom: 6px; }
+  .sub { color:#8fa3c4; margin-bottom: 28px; font-size: 15px; }
+  .flow {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; align-items: stretch;
+    margin-bottom: 22px;
+  }
+  .box {
+    background: #111b2e; border: 1px solid #2a3d61; border-radius: 16px; padding: 16px;
+    min-height: 180px; position: relative;
+  }
+  .box.accent { border-color: rgba(34,211,238,.45); box-shadow: 0 0 0 1px rgba(34,211,238,.08); }
+  .box.ai { border-color: rgba(168,85,247,.5); background: linear-gradient(180deg,#16122b,#111b2e); }
+  .label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: .7px; color:#7dd3fc; margin-bottom: 8px; font-weight:700;
+  }
+  .box.ai .label { color:#d8b4fe; }
+  .box h3 { font-size: 16px; margin-bottom: 10px; }
+  .box li { font-size: 12px; color:#b7c7e3; margin: 0 0 6px 14px; line-height:1.35; }
+  .arrow {
+    position: absolute; right: -12px; top: 50%; transform: translateY(-50%);
+    width: 0; height: 0; border-top: 8px solid transparent; border-bottom: 8px solid transparent;
+    border-left: 10px solid #3b82f6; z-index: 2;
+  }
+  .row2 {
+    display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 14px;
+  }
+  .panel {
+    background:#0f1729; border:1px solid #243554; border-radius:16px; padding:18px; min-height: 280px;
+  }
+  .panel h3 { font-size:15px; margin-bottom:12px; }
+  .chiprow { display:flex; flex-wrap:wrap; gap:8px; }
+  .chip {
+    background:#132038; border:1px solid #2d4268; border-radius:999px;
+    padding:8px 12px; font-size:12px; color:#c7d5ef;
+  }
+  .chip.new { border-color: rgba(34,211,238,.4); color:#67e8f9; }
+  .chip.ai { border-color: rgba(168,85,247,.45); color:#d8b4fe; }
+  table { width:100%; border-collapse: collapse; font-size:12px; }
+  th, td { text-align:left; padding:8px 6px; border-bottom:1px solid #1e2d4a; color:#b7c7e3; }
+  th { color:#8fa3c4; font-weight:600; }
+  .now { color:#67e8f9; }
+  .next { color:#fbbf24; }
+  .later { color:#d8b4fe; }
+</style>
+</head>
+<body>
+  <h1>WASA Target Architecture · Product Vision</h1>
+  <p class="sub">From thesis prototype to enterprise-ready AI Security Automation Platform</p>
+
+  <div class="flow">
+    <div class="box accent">
+      <div class="label">Layer 1</div>
+      <h3>Experience</h3>
+      <ul>
+        <li>React command center</li>
+        <li>Role-based dashboards</li>
+        <li>Scan wizard & live status</li>
+        <li>Exportable PDF reports</li>
+      </ul>
+      <div class="arrow"></div>
+    </div>
+    <div class="box accent">
+      <div class="label">Layer 2</div>
+      <h3>API Gateway</h3>
+      <ul>
+        <li>AuthN / AuthZ (OIDC)</li>
+        <li>Rate limits & audit log</li>
+        <li>Job orchestration API</li>
+        <li>Webhook callbacks</li>
+      </ul>
+      <div class="arrow"></div>
+    </div>
+    <div class="box">
+      <div class="label">Layer 3</div>
+      <h3>Scan Workers</h3>
+      <ul>
+        <li>XSS / SQLi / SSRF / XSS DOM</li>
+        <li>Tech fingerprint + CVE</li>
+        <li>Network & credential audit</li>
+        <li>Queue: Redis / Celery</li>
+      </ul>
+      <div class="arrow"></div>
+    </div>
+    <div class="box ai">
+      <div class="label">Layer 4 · AI</div>
+      <h3>Intelligence</h3>
+      <ul>
+        <li>Finding triage & de-dupe</li>
+        <li>Exploit path reasoning</li>
+        <li>Fix generation + tests</li>
+        <li>Risk scoring models</li>
+      </ul>
+      <div class="arrow"></div>
+    </div>
+    <div class="box">
+      <div class="label">Layer 5</div>
+      <h3>Data & Ops</h3>
+      <ul>
+        <li>Postgres findings store</li>
+        <li>Object store for evidence</li>
+        <li>SIEM / Jira / Slack</li>
+        <li>Policy as code</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row2">
+    <div class="panel">
+      <h3>Capability Matrix</h3>
+      <table>
+        <tr><th>Capability</th><th>Status</th><th>Notes</th></tr>
+        <tr><td>Reflected XSS</td><td class="now">Now</td><td>Basic form reflection</td></tr>
+        <tr><td>Error-based SQLi</td><td class="now">Now</td><td>Quote payloads + errors</td></tr>
+        <tr><td>Tech + Vulners CVE</td><td class="now">Now</td><td>Versioned stack map</td></tr>
+        <tr><td>SSH/Telnet audit</td><td class="now">Now</td><td>Port 22/23 brute</td></tr>
+        <tr><td>Blind SQLi / DOM XSS</td><td class="next">Next</td><td>Timing + browser engine</td></tr>
+        <tr><td>Auth, JWT, CSRF, headers</td><td class="next">Next</td><td>Session security suite</td></tr>
+        <tr><td>AI triage & fix drafts</td><td class="later">Vision</td><td>LLM copilot layer</td></tr>
+        <tr><td>Continuous ASM</td><td class="later">Vision</td><td>Always-on attack surface</td></tr>
+      </table>
+    </div>
+    <div class="panel">
+      <h3>New Scanner Packs</h3>
+      <div class="chiprow">
+        <span class="chip new">CSRF</span>
+        <span class="chip new">Open Redirect</span>
+        <span class="chip new">SSRF</span>
+        <span class="chip new">IDOR heuristics</span>
+        <span class="chip new">File upload</span>
+        <span class="chip new">CORS misconfig</span>
+        <span class="chip new">TLS / SSL labs</span>
+        <span class="chip new">Security headers</span>
+        <span class="chip new">Subdomain takeover</span>
+        <span class="chip new">Secrets in JS</span>
+        <span class="chip new">GraphQL abuse</span>
+        <span class="chip new">API fuzzing</span>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>AI Superpowers</h3>
+      <div class="chiprow">
+        <span class="chip ai">False-positive filter</span>
+        <span class="chip ai">Attack path graph</span>
+        <span class="chip ai">PoC narration</span>
+        <span class="chip ai">Code fix PR</span>
+        <span class="chip ai">Threat intel fusion</span>
+        <span class="chip ai">Risk heat score</span>
+        <span class="chip ai">Chat with findings</span>
+        <span class="chip ai">Compliance map</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
